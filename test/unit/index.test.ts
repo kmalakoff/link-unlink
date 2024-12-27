@@ -11,13 +11,13 @@ import Promise from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
-import { link, unlink } from 'link-unlink';
+import { link, unlink } from 'module-link-unlink';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const DATA = path.resolve(__dirname, '..', 'data');
 const TMP_DIR = path.resolve(__dirname, '..', '..', '.tmp');
 
-describe('link-unlink', () => {
+describe('module-link-unlink', () => {
   before(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
   // after(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
 

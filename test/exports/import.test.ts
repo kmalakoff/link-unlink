@@ -1,9 +1,9 @@
 import assert from 'assert';
 
 // @ts-ignore
-import { link, unlink } from 'link-unlink';
+import { link, unlink } from 'module-link-unlink';
 // @ts-ignore
-import linkUnlink from 'link-unlink';
+import linkUnlink from 'module-link-unlink';
 
 describe('exports .ts', () => {
   it('defaults', () => {

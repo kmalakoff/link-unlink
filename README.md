@@ -1,11 +1,11 @@
-## link-unlink
+## module-link-unlink
 
 Generate an http message string using the fetch API for browser and node
 
 ### Example 1
 
 ```typescript
-import fetchMessage from 'link-unlink';
+import fetchMessage from 'module-link-unlink';
 
 const headers = { header1: 'value 1', header2: 'value 2' };
 const message = fetchMessage('https://test.com/', { method: 'PATCH', headers, body: 'post-body' });
@@ -15,7 +15,7 @@ console.log(message); // "PATCH https://test.com/ HTTP/1.1\r\nheader1: value 1\r
 ### Example 2
 
 ```typescript
-import fetchMessage from 'link-unlink';
+import fetchMessage from 'module-link-unlink';
 
 const headers = new Headers();
 headers.set('header1', 'value 1');
@@ -26,4 +26,4 @@ console.log(message); // "PATCH https://test.com/ HTTP/1.1\r\nheader1: value 1\r
 
 ### Documentation
 
-[API Docs](https://kmalakoff.github.io/link-unlink/)
+[API Docs](https://kmalakoff.github.io/module-link-unlink/)

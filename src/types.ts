@@ -3,7 +3,7 @@ export interface LinkOptions {
 }
 export type LinkCallback = (err?: Error, installedAt?: string) => void;
 
-export interface UnLinkOptions {
+export interface UnlinkOptions {
   cacheDirectory?: string;
 }
 export type UnlinkCallback = (err?: Error, installedAt?: string) => void;

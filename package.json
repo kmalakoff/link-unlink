@@ -1,23 +1,21 @@
 {
-  "name": "link-unlink",
-  "version": "0.1.0",
-  "description": "Link and unlink with saving and restoring the previous file or directory",
+  "name": "module-link-unlink",
+  "version": "0.0.0",
+  "description": "Link and unlink a module with saving and restoring the previous install",
   "keywords": [
     "link",
     "unlink",
     "restore",
-    "fs",
-    "symlink",
-    "file",
-    "directory"
+    "bin",
+    ".bin"
   ],
-  "homepage": "https://github.com/kmalakoff/link-unlink#README.md",
+  "homepage": "https://github.com/kmalakoff/module-link-unlink#README.md",
   "bugs": {
-    "url": "https://github.com/kmalakoff/link-unlink/issues"
+    "url": "https://github.com/kmalakoff/module-link-unlink/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/kmalakoff/link-unlink.git"
+    "url": "git+ssh://git@github.com/kmalakoff/module-link-unlink.git"
   },
   "license": "MIT",
   "author": {
@@ -51,6 +49,8 @@
     "version": "tsds version"
   },
   "dependencies": {
+    "fs-access-compat": "^1.0.3",
+    "link-unlink": "^0.1.0",
     "mkdirp-classic": "^0.5.3",
     "queue-cb": "^1.4.4",
     "temp-suffix": "^0.1.1"

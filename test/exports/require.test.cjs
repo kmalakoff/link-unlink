@@ -1,6 +1,6 @@
 const assert = require('assert');
-const { link, unlink } = require('link-unlink');
-const linkUnlink = require('link-unlink');
+const { link, unlink } = require('module-link-unlink');
+const linkUnlink = require('module-link-unlink');
 
 describe('exports .cjs', () => {
   it('defaults', () => {

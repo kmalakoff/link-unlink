@@ -1,7 +1,7 @@
 export * from './types.js';
-export { default as link } from './link.js';
-export { default as unlink } from './unlink.js';
+export { default as linkModule } from './linkModule.js';
+export { default as unlinkModule } from './unlinkModule.js';
 
-import { default as link } from './link.js';
-import { default as unlink } from './unlink.js';
-export default { link, unlink };
+import { default as linkModule } from './linkModule.js';
+import { default as unlinkModule } from './unlinkModule.js';
+export default { linkModule, unlinkModule };
