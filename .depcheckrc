@@ -1,0 +1,1 @@
+ignores: ["link-unlink", "ts-dev-stack", "@types/*", "@biomejs/*"]
