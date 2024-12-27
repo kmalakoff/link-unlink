@@ -1,0 +1,78 @@
+{
+  "name": "link-unlink",
+  "version": "0.0.0",
+  "description": "Link and unlink with saving and restoring the previous file or directory",
+  "keywords": [
+    "link",
+    "unlink",
+    "restore",
+    "fs",
+    "symlink",
+    "file",
+    "directory"
+  ],
+  "homepage": "https://github.com/kmalakoff/link-unlink#README.md",
+  "bugs": {
+    "url": "https://github.com/kmalakoff/link-unlink/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kmalakoff/link-unlink.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Kevin Malakoff",
+    "email": "kmalakoff@gmail.com",
+    "url": "https://github.com/kmalakoff"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/cjs/index.js",
+  "unpkg": "dist/umd/index-of-newline.js",
+  "module": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsds build",
+    "depcheck": "depcheck",
+    "deploy": "tsds deploy",
+    "format": "biome check --write --unsafe src/ test/",
+    "test": "tsds test:node --no-timeouts",
+    "test:engines": "nvu engines tsds test:node --no-timeouts",
+    "version": "tsds version"
+  },
+  "dependencies": {
+    "mkdirp-classic": "^0.5.3",
+    "queue-cb": "^1.4.4",
+    "temp-suffix": "^0.1.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.10.2",
+    "fs-exists-sync": "^0.1.0",
+    "pinkie-promise": "^2.0.1",
+    "rimraf2": "^2.8.2",
+    "ts-dev-stack": "^1.6.2"
+  },
+  "packageManager": "npm@11.0.0+sha512.11dff29565d2297c74e7c594a9762581bde969f0aa5cbe6f5b3644bf008a16c065ece61094d9ffbb81125be38df8e1ba43eb8244b3d30c61eb797e9a2440e3ec",
+  "engines": {
+    "node": ">=0.8"
+  },
+  "tsds": {
+    "source": "src/index.ts",
+    "targets": [
+      "cjs",
+      "esm"
+    ]
+  }
+}
