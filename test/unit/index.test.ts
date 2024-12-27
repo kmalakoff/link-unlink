@@ -19,7 +19,7 @@ const TMP_DIR = path.resolve(__dirname, '..', '..', '.tmp');
 
 describe('link-unlink', () => {
   before(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
-  // after(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
+  after(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
 
   function addTests({ name, type }) {
     function isType(stat) {
