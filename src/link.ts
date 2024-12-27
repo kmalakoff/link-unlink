@@ -21,7 +21,7 @@ function createLink(src, target, callback) {
   });
 }
 
-function worker(src, target, _options, callback) {
+function worker(src, target, callback) {
   fs.stat(target, (_, stat) => {
     // doesn't exist, create
     if (!stat) return createLink(src, target, callback);
@@ -32,18 +32,12 @@ function worker(src, target, _options, callback) {
   });
 }
 
-import type { LinkCallback, LinkOptions } from './types.js';
+import type { LinkCallback } from './types.js';
 
-export default function link(src: string, target: string, options?: LinkOptions | LinkCallback, callback?: LinkCallback): undefined | Promise<string> {
-  if (typeof options === 'function') {
-    callback = options;
-    options = {};
-  }
-  options = options || {};
-
-  if (typeof callback === 'function') return worker(src, target, options, callback) as undefined;
+export default function link(src: string, target: string, callback?: undefined | LinkCallback): undefined | Promise<string> {
+  if (typeof callback === 'function') return worker(src, target, callback) as undefined;
   return new Promise((resolve, reject) => {
-    worker(src, target, options, (err, restore) => {
+    worker(src, target, (err, restore) => {
       err ? reject(err) : resolve(restore);
     });
   });
