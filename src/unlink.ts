@@ -9,7 +9,7 @@ function restoreLink(previous, target, callback) {
   });
 }
 
-function worker(target, _options, callback) {
+function worker(target, callback) {
   const dirname = path.dirname(target);
   const basename = path.basename(target);
 
@@ -38,18 +38,12 @@ function worker(target, _options, callback) {
   });
 }
 
-import type { LinkCallback, LinkOptions } from './types.js';
+import type { UnlinkCallback } from './types.js';
 
-export default function link(target: string, options?: LinkOptions | LinkCallback, callback?: LinkCallback): undefined | Promise<string> {
-  if (typeof options === 'function') {
-    callback = options;
-    options = {};
-  }
-  options = options || {};
-
-  if (typeof callback === 'function') return worker(target, options, callback) as undefined;
+export default function link(target: string, callback?: undefined | UnlinkCallback): undefined | Promise<string> {
+  if (typeof callback === 'function') return worker(target, callback) as undefined;
   return new Promise((resolve, reject) => {
-    worker(target, options, (err, restore) => {
+    worker(target, (err, restore) => {
       err ? reject(err) : resolve(restore);
     });
   });
