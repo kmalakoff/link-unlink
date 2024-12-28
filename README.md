@@ -1,27 +1,13 @@
 ## link-unlink
 
-Generate an http message string using the fetch API for browser and node
+Link and unlink with saving and restoring the previous file or directory
 
-### Example 1
-
-```typescript
-import fetchMessage from 'link-unlink';
-
-const headers = { header1: 'value 1', header2: 'value 2' };
-const message = fetchMessage('https://test.com/', { method: 'PATCH', headers, body: 'post-body' });
-console.log(message); // "PATCH https://test.com/ HTTP/1.1\r\nheader1: value 1\r\nheader2: value 2\r\n\r\npost-body"
-```
-
-### Example 2
 
 ```typescript
-import fetchMessage from 'link-unlink';
+import { link, unlink } from 'link-unlink';
 
-const headers = new Headers();
-headers.set('header1', 'value 1');
-headers.set('header2', 'value 2');
-const message = fetchMessage('https://test.com/', { method: 'PATCH', headers, body: 'post-body' });
-console.log(message); // "PATCH https://test.com/ HTTP/1.1\r\nheader1: value 1\r\nheader2: value 2\r\n\r\npost-body"
+await link('/path/to/file_or_folder', '/path/to/link'); // if '/path/to/link' exists, it is moved to '/path/to/link.abcde1234' and regardless '/path/to/file_or_folder' -> '/path/to/link'
+await unlink('/path/to/link'); // if '/path/to/link.abcde1234' exists, it is restored to '/path/to/link' otherwise it will be not
 ```
 
 ### Documentation

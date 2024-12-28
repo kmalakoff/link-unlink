@@ -16,7 +16,15 @@ function createLink(src, target, callback) {
     if (err) return callback(err);
 
     mkdirp(path.dirname(target), () => {
-      fs.symlink(src, target, stat.isFile() ? 'file' : dirSymlinkType, (err) => (err ? callback(err) : callback(null, target)));
+      fs.symlink(src, target, stat.isFile() ? 'file' : dirSymlinkType, (err) => {
+        if (!err) return callback(null, target);
+        if (err.message.indexOf('already exists') < 0) return callback(err);
+
+        // already exists, move and try to link again
+        return saveLink(target, (err) => {
+          err ? callback(err) : createLink(src, target, callback);
+        });
+      });
     });
   });
 }
