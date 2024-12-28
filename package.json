@@ -1,6 +1,6 @@
 {
   "name": "link-unlink",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Link and unlink with saving and restoring the previous file or directory",
   "keywords": [
     "link",
