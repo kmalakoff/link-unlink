@@ -18,7 +18,7 @@ function createLink(src, target, callback) {
     mkdirp(path.dirname(target), () => {
       fs.symlink(src, target, stat.isFile() ? 'file' : dirSymlinkType, (err) => {
         if (!err) return callback(null, target);
-        if (err.message.indexOf('already exists') < 0) return callback(err);
+        if (err.code !== 'EEXIST') return callback(err);
 
         // already exists, move and try to link again
         return saveLink(target, (err) => {
