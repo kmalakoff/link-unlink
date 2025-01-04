@@ -1,21 +1,17 @@
-// remove NODE_OPTIONS from ts-dev-stack
-delete process.env.NODE_OPTIONS;
-
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 import url from 'url';
 import existsSync from 'fs-exists-sync';
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Promise from 'pinkie-promise';
+import Pinkie from 'pinkie-promise';
 import rimraf2 from 'rimraf2';
 
 // @ts-ignore
 import { link, unlink } from 'link-unlink';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
-const DATA = path.resolve(__dirname, '..', 'data');
-const TMP_DIR = path.resolve(__dirname, '..', '..', '.tmp');
+const DATA = path.join(__dirname, '..', 'data');
+const TMP_DIR = path.join(__dirname, '..', '..', '.tmp');
 
 describe('link-unlink', () => {
   before(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
@@ -41,19 +37,23 @@ describe('link-unlink', () => {
     }
 
     describe(name, () => {
-      const root = typeof global !== 'undefined' ? global : window;
-      let rootPromise: Promise;
-      before(() => {
-        rootPromise = root.Promise;
-        root.Promise = Promise;
-      });
-      after(() => {
-        root.Promise = rootPromise;
-      });
+      (() => {
+        // patch and restore promise
+        // @ts-ignore
+        let rootPromise: Promise;
+        before(() => {
+          rootPromise = global.Promise;
+          // @ts-ignore
+          global.Promise = Pinkie;
+        });
+        after(() => {
+          global.Promise = rootPromise;
+        });
+      })();
 
       it('link', (done) => {
-        const source = path.resolve(DATA, '..', 'data', name);
-        const dest = path.resolve(TMP_DIR, name);
+        const source = path.join(DATA, '..', 'data', name);
+        const dest = path.join(TMP_DIR, name);
         assert.equal(existsSync(dest), false);
 
         link(source, dest, (err, restore) => {
@@ -78,8 +78,8 @@ describe('link-unlink', () => {
       });
 
       it('link (promise)', async () => {
-        const source = path.resolve(DATA, '..', 'data', name);
-        const dest = path.resolve(TMP_DIR, name);
+        const source = path.join(DATA, '..', 'data', name);
+        const dest = path.join(TMP_DIR, name);
         assert.equal(existsSync(dest), false);
 
         const restore = await link(source, dest);
@@ -99,8 +99,8 @@ describe('link-unlink', () => {
       });
 
       it('link multiple', (done) => {
-        const source = path.resolve(DATA, '..', 'data', name);
-        const dest = path.resolve(TMP_DIR, name);
+        const source = path.join(DATA, '..', 'data', name);
+        const dest = path.join(TMP_DIR, name);
         assert.equal(existsSync(dest), false);
 
         link(source, dest, (err) => {
