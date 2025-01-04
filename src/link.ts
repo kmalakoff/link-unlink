@@ -40,13 +40,9 @@ function worker(src, target, callback) {
   });
 }
 
-import type { LinkCallback } from './types.js';
+import type { LinkCallback } from './types';
 
 export default function link(src: string, target: string, callback?: undefined | LinkCallback): undefined | Promise<string> {
   if (typeof callback === 'function') return worker(src, target, callback) as undefined;
-  return new Promise((resolve, reject) => {
-    worker(src, target, (err, restore) => {
-      err ? reject(err) : resolve(restore);
-    });
-  });
+  return new Promise((resolve, reject) => worker(src, target, (err, restore) => (err ? reject(err) : resolve(restore))));
 }
