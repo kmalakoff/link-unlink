@@ -1,1 +1,1 @@
-'test-file.js'
+'test-file.js';

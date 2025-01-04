@@ -38,13 +38,9 @@ function worker(target, callback) {
   });
 }
 
-import type { UnlinkCallback } from './types.js';
+import type { UnlinkCallback } from './types';
 
 export default function link(target: string, callback?: undefined | UnlinkCallback): undefined | Promise<string> {
   if (typeof callback === 'function') return worker(target, callback) as undefined;
-  return new Promise((resolve, reject) => {
-    worker(target, (err, restore) => {
-      err ? reject(err) : resolve(restore);
-    });
-  });
+  return new Promise((resolve, reject) => worker(target, (err, restore) => (err ? reject(err) : resolve(restore))));
 }
