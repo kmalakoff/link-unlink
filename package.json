@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.4.7",
-    "temp-suffix": "^0.1.5"
+    "queue-cb": "^1.4.8",
+    "temp-suffix": "^0.1.6"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
