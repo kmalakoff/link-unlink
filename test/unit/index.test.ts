@@ -57,7 +57,7 @@ describe('link-unlink', () => {
         assert.equal(existsSync(dest), false);
 
         link(source, dest, (err, restore) => {
-          assert.ok(!err, err ? err.message : '');
+          if (err) return done(err);
           assert.equal(restore, dest);
           assert.equal(existsSync(dest), true);
           checkFiles(fs.readdirSync(TMP_DIR), 1);
@@ -69,7 +69,7 @@ describe('link-unlink', () => {
           assert.ok(isType(stat));
 
           unlink(dest, (err) => {
-            assert.ok(!err, err ? err.message : '');
+            if (err) return done(err);
             assert.equal(existsSync(dest), false);
             assert.equal(fs.readdirSync(TMP_DIR).length, 0);
             done();
@@ -104,29 +104,29 @@ describe('link-unlink', () => {
         assert.equal(existsSync(dest), false);
 
         link(source, dest, (err) => {
-          assert.ok(!err, err ? err.message : '');
+          if (err) return done(err);
 
           link(source, dest, (err) => {
-            assert.ok(!err, err ? err.message : '');
+            if (err) return done(err);
 
             link(source, dest, (err) => {
-              assert.ok(!err, err ? err.message : '');
+              if (err) return done(err);
 
               assert.equal(existsSync(dest), true);
               checkFiles(fs.readdirSync(TMP_DIR), 3);
 
               unlink(dest, (err) => {
-                assert.ok(!err, err ? err.message : '');
+                if (err) return done(err);
                 assert.equal(existsSync(dest), true);
                 checkFiles(fs.readdirSync(TMP_DIR), 2);
 
                 unlink(dest, (err) => {
-                  assert.ok(!err, err ? err.message : '');
+                  if (err) return done(err);
                   assert.equal(existsSync(dest), true);
                   checkFiles(fs.readdirSync(TMP_DIR), 1);
 
                   unlink(dest, (err) => {
-                    assert.ok(!err, err ? err.message : '');
+                    if (err) return done(err);
                     assert.equal(existsSync(dest), false);
                     assert.equal(fs.readdirSync(TMP_DIR).length, 0);
                     done();
