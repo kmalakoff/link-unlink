@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "mkdirp-classic": "^0.5.3",
-    "queue-cb": "^1.4.11",
+    "queue-cb": "^1.4.12",
     "temp-suffix": "^0.1.9"
   },
   "devDependencies": {
