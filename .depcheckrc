@@ -1,1 +1,1 @@
-ignores: ["link-unlink", "@types/*", "@biomejs/*"]
+ignores: ["@types/*", "link-unlink", "@biomejs/*"]
