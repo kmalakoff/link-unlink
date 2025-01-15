@@ -47,7 +47,7 @@
   "dependencies": {
     "mkdirp-classic": "^0.5.3",
     "queue-cb": "^1.4.13",
-    "temp-suffix": "^0.1.10"
+    "temp-suffix": "^0.1.11"
   },
   "devDependencies": {
     "@types/mocha": "*",
