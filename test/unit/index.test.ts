@@ -12,10 +12,11 @@ import { link, unlink } from 'link-unlink';
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const DATA = path.join(__dirname, '..', 'data');
 const TMP_DIR = path.join(__dirname, '..', '..', '.tmp');
+const STRESS_COUNT = 10;
 
 describe('link-unlink', () => {
   before(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
-  after(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
+  // after(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
 
   function addTests({ name, type }) {
     function isType(stat) {
@@ -98,44 +99,34 @@ describe('link-unlink', () => {
         assert.equal(fs.readdirSync(TMP_DIR).length, 0);
       });
 
-      it('link multiple', (done) => {
+      it('link multiple (serial)', async () => {
         const source = path.join(DATA, '..', 'data', name);
         const dest = path.join(TMP_DIR, name);
         assert.equal(existsSync(dest), false);
 
-        link(source, dest, (err) => {
-          if (err) return done(err.message);
+        for (let counter = 0; counter < STRESS_COUNT; counter++) {
+          await link(source, dest);
+        }
+        assert.equal(existsSync(dest), true);
+        checkFiles(fs.readdirSync(TMP_DIR), STRESS_COUNT);
+        for (let counter = 0; counter < STRESS_COUNT; counter++) {
+          await unlink(dest);
+        }
+        assert.equal(existsSync(dest), false);
+        assert.equal(fs.readdirSync(TMP_DIR).length, 0);
+      });
 
-          link(source, dest, (err) => {
-            if (err) return done(err.message);
+      it('link multiple (parallel)', async () => {
+        const source = path.join(DATA, '..', 'data', name);
+        const dest = path.join(TMP_DIR, name);
+        assert.equal(existsSync(dest), false);
 
-            link(source, dest, (err) => {
-              if (err) return done(err.message);
-
-              assert.equal(existsSync(dest), true);
-              checkFiles(fs.readdirSync(TMP_DIR), 3);
-
-              unlink(dest, (err) => {
-                if (err) return done(err.message);
-                assert.equal(existsSync(dest), true);
-                checkFiles(fs.readdirSync(TMP_DIR), 2);
-
-                unlink(dest, (err) => {
-                  if (err) return done(err.message);
-                  assert.equal(existsSync(dest), true);
-                  checkFiles(fs.readdirSync(TMP_DIR), 1);
-
-                  unlink(dest, (err) => {
-                    if (err) return done(err.message);
-                    assert.equal(existsSync(dest), false);
-                    assert.equal(fs.readdirSync(TMP_DIR).length, 0);
-                    done();
-                  });
-                });
-              });
-            });
-          });
-        });
+        await Promise.all([...Array(STRESS_COUNT)].map((_) => link(source, dest)));
+        assert.equal(existsSync(dest), true);
+        checkFiles(fs.readdirSync(TMP_DIR), STRESS_COUNT);
+        await Promise.all([...Array(STRESS_COUNT)].map((_) => unlink(dest)));
+        assert.equal(existsSync(dest), false);
+        assert.equal(fs.readdirSync(TMP_DIR).length, 0);
       });
     });
   }
