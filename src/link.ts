@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
+import { Lock } from 'lock';
 import mkdirp from 'mkdirp-classic';
 import tempSuffix from 'temp-suffix';
+
+const lock = Lock();
 
 const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE);
 const dirSymlinkType = isWindows ? 'junction' : 'dir';
@@ -18,7 +21,6 @@ function createLink(src, target, callback) {
     mkdirp(path.dirname(target), () => {
       fs.symlink(src, target, stat.isFile() ? 'file' : dirSymlinkType, (err) => {
         if (!err) return callback(null, target);
-        if (err.code !== 'EEXIST') return callback(err);
 
         // already exists, move and try to link again
         return saveLink(target, (err) => {
@@ -30,12 +32,15 @@ function createLink(src, target, callback) {
 }
 
 function worker(src, target, callback) {
-  fs.stat(target, (_, stat) => {
-    // doesn't exist, create
-    if (!stat) return createLink(src, target, callback);
-    // exists so move it
-    return saveLink(target, (err) => {
-      err ? callback(err) : createLink(src, target, callback);
+  lock([src, target], (release) => {
+    callback = release(callback);
+    fs.stat(target, (_, stat) => {
+      // doesn't exist, create
+      if (!stat) return createLink(src, target, callback);
+      // exists so move it
+      return saveLink(target, (err) => {
+        err ? callback(err) : createLink(src, target, callback);
+      });
     });
   });
 }
