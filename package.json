@@ -48,14 +48,14 @@
     "lock": "^1.1.0",
     "mkdirp-classic": "^0.5.3",
     "queue-cb": "^1.4.16",
+    "rimraf2": "^2.8.2",
     "temp-suffix": "^0.1.14"
   },
   "devDependencies": {
     "@types/mocha": "*",
     "@types/node": "*",
     "fs-exists-sync": "*",
-    "pinkie-promise": "*",
-    "rimraf2": "*"
+    "pinkie-promise": "*"
   },
   "engines": {
     "node": ">=0.8"
