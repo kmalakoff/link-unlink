@@ -58,7 +58,10 @@ describe('link-unlink', () => {
         assert.equal(existsSync(dest), false);
 
         link(source, dest, (err, restore) => {
-          if (err) return done(err.message);
+          if (err) {
+            done(err.message);
+            return;
+          }
           assert.equal(restore, dest);
           assert.equal(existsSync(dest), true);
           checkFiles(fs.readdirSync(TMP_DIR), 1);
@@ -70,7 +73,10 @@ describe('link-unlink', () => {
           assert.ok(isType(stat));
 
           unlink(dest, (err) => {
-            if (err) return done(err.message);
+            if (err) {
+              done(err.message);
+              return;
+            }
             assert.equal(existsSync(dest), false);
             assert.equal(fs.readdirSync(TMP_DIR).length, 0);
             done();
