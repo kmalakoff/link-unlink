@@ -1,7 +1,7 @@
 import fs from 'fs';
-import path from 'path';
 import { Lock } from 'lock';
 import mkdirp from 'mkdirp-classic';
+import path from 'path';
 import tempSuffix from 'temp-suffix';
 
 const lock = Lock();

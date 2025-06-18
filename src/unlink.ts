@@ -1,6 +1,6 @@
 import fs from 'fs';
-import path from 'path';
 import { Lock } from 'lock';
+import path from 'path';
 import Queue from 'queue-cb';
 import rimraf2 from 'rimraf2';
 
