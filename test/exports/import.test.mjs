@@ -1,6 +1,5 @@
 import assert from 'assert';
-import { link, unlink } from 'link-unlink';
-import linkUnlink from 'link-unlink';
+import linkUnlink, { link, unlink } from 'link-unlink';
 
 describe('exports .mjs', () => {
   it('defaults', () => {
