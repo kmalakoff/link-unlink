@@ -45,7 +45,7 @@ function worker(target, callback) {
   });
 }
 
-import type { UnlinkCallback } from './types.js';
+import type { UnlinkCallback } from './types.ts';
 
 export default function link(target: string, callback?: undefined | UnlinkCallback): undefined | Promise<string> {
   if (typeof callback === 'function') return worker(target, callback) as undefined;
