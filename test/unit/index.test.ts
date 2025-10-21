@@ -1,7 +1,6 @@
 import assert from 'assert';
 import fs from 'fs';
 import existsSync from 'fs-exists-sync';
-// @ts-ignore
 import { link, unlink } from 'link-unlink';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
