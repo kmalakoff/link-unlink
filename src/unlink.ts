@@ -27,15 +27,15 @@ function worker(target, callback) {
 
       const stats = [];
       const queue = new Queue();
-      matches.forEach((match) =>
+      matches.forEach((match) => {
         queue.defer((cb) => {
           fs.lstat(match, (err, stat) => {
             if (err) return callback(err);
             stats.push({ match, stat });
             cb();
           });
-        })
-      );
+        });
+      });
       queue.await((err) => {
         if (err) return callback(err);
         const sorted = stats.sort((a, b) => b.stat.ctime.valueOf() - a.stat.ctime.valueOf());

@@ -1,5 +1,4 @@
 import assert from 'assert';
-// @ts-ignore
 import linkUnlink, { link, unlink } from 'link-unlink';
 
 describe('exports .ts', () => {
