@@ -1,10 +1,10 @@
 import assert from 'assert';
 import fs from 'fs';
 import existsSync from 'fs-exists-sync';
+import { safeRm } from 'fs-remove-compat';
 import { link, unlink } from 'link-unlink';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
-import rimraf2 from 'rimraf2';
 import url from 'url';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
@@ -13,8 +13,8 @@ const TMP_DIR = path.join(__dirname, '..', '..', '.tmp');
 const STRESS_COUNT = 10;
 
 describe('link-unlink', () => {
-  before(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
-  // after(rimraf2.bind(null, TMP_DIR, { disableGlob: true }));
+  before((cb) => safeRm(TMP_DIR, cb));
+  // after((cb) => safeRm(TMP_DIR, cb));
 
   function addTests({ name, type }) {
     function isType(stat) {
