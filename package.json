@@ -42,7 +42,7 @@
   "scripts": {
     "build": "tsds build",
     "format": "tsds format",
-    "test": "mocha --no-timeouts test/**/*.test.*",
+    "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
   },
@@ -57,7 +57,9 @@
     "@types/mocha": "*",
     "@types/node": "*",
     "fs-exists-sync": "*",
+    "node-version-use": "*",
     "pinkie-promise": "*",
+    "ts-dev-stack": "*",
     "tsds-config": "*"
   },
   "engines": {
