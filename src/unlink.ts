@@ -1,13 +1,13 @@
 import fs from 'fs';
+import { rm } from 'fs-remove-compat';
 import { Lock } from 'lock';
 import path from 'path';
 import Queue from 'queue-cb';
-import rimraf2 from 'rimraf2';
 
 const lock = Lock();
 
 function restoreLink(previous, target, callback) {
-  rimraf2(target, { disableGlob: true }, (err) => {
+  rm(target, (err) => {
     err ? callback(err) : fs.rename(previous, target, callback);
   });
 }
@@ -22,7 +22,7 @@ function worker(target, callback) {
     fs.readdir(dirname, (err, files) => {
       if (err) return callback(err);
       const matches = files.filter((x) => x.indexOf(basename) === 0 && x.slice(basename.length)[0] === '.').map((x) => path.join(dirname, x));
-      if (matches.length === 0) return rimraf2(target, { disableGlob: true }, callback);
+      if (matches.length === 0) return rm(target, callback);
       if (matches.length === 1) return restoreLink(matches[0], target, callback);
 
       const stats = [];
