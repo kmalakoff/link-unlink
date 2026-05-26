@@ -1,2 +1,2 @@
-export type LinkCallback = (err?: Error, installedAt?: string) => void;
-export type UnlinkCallback = (err?: Error, installedAt?: string) => void;
+export type LinkCallback = (err?: Error | null, installedAt?: string) => void;
+export type UnlinkCallback = (err?: Error | null, installedAt?: string) => void;
