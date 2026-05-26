@@ -6,13 +6,15 @@ import Queue from 'queue-cb';
 
 const lock = Lock();
 
-function restoreLink(previous, target, callback) {
+import type { UnlinkCallback } from './types.ts';
+
+function restoreLink(previous: string, target: string, callback: UnlinkCallback) {
   safeRm(target, (err) => {
     err ? callback(err) : fs.rename(previous, target, callback);
   });
 }
 
-function worker(target, callback) {
+function worker(target: string, callback: UnlinkCallback) {
   lock(target, (release) => {
     callback = release(callback);
 
@@ -25,7 +27,7 @@ function worker(target, callback) {
       if (matches.length === 0) return safeRm(target, callback);
       if (matches.length === 1) return restoreLink(matches[0], target, callback);
 
-      const stats = [];
+      const stats: { match: string; stat: fs.Stats }[] = [];
       const queue = new Queue();
       matches.forEach((match) => {
         queue.defer((cb) => {
@@ -45,9 +47,7 @@ function worker(target, callback) {
   });
 }
 
-import type { UnlinkCallback } from './types.ts';
-
 export default function unlink(target: string, callback?: UnlinkCallback): void | Promise<string> {
   if (typeof callback === 'function') return worker(target, callback);
-  return new Promise((resolve, reject) => worker(target, (err, restore) => (err ? reject(err) : resolve(restore))));
+  return new Promise((resolve, reject) => worker(target, (err, restore) => (err ? reject(err) : resolve(restore!))));
 }
