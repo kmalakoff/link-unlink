@@ -16,11 +16,11 @@ describe('link-unlink', () => {
   before((cb) => safeRm(TMP_DIR, cb));
   // after((cb) => safeRm(TMP_DIR, cb));
 
-  function addTests({ name, type }) {
-    function isType(stat) {
+  function addTests({ name, type }: { name: string; type: string }) {
+    function isType(stat: { isFile(): boolean; isDirectory(): boolean }) {
       return type === 'file' ? stat.isFile() : stat.isDirectory();
     }
-    function checkFiles(files, count) {
+    function checkFiles(files: string[], count: number) {
       assert.equal(files.length, count);
 
       files.forEach((file) => {
@@ -54,10 +54,8 @@ describe('link-unlink', () => {
         assert.equal(existsSync(dest), false);
 
         link(source, dest, (err, restore) => {
-          if (err) {
-            done(err);
-            return;
-          }
+          if (err) return done(err);
+
           assert.equal(restore, dest);
           assert.equal(existsSync(dest), true);
           checkFiles(fs.readdirSync(TMP_DIR), 1);
@@ -69,10 +67,7 @@ describe('link-unlink', () => {
           assert.ok(isType(stat));
 
           unlink(dest, (err) => {
-            if (err) {
-              done(err);
-              return;
-            }
+            if (err) return done(err);
             assert.equal(existsSync(dest), false);
             assert.equal(fs.readdirSync(TMP_DIR).length, 0);
             done();
