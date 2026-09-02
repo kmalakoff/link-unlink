@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "build": "tsds build",
-    "format": "biome check --write --unsafe",
-    "test": "mocha --no-timeouts test/**/*.test.*",
+    "format": "tsds format",
+    "test": "tsds test:node --no-timeouts",
     "test:engines": "nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
   },
@@ -57,7 +57,10 @@
     "@types/mocha": "*",
     "@types/node": "*",
     "fs-exists-sync": "*",
-    "pinkie-promise": "*"
+    "node-version-use": "*",
+    "pinkie-promise": "*",
+    "ts-dev-stack": "*",
+    "tsds-config": "*"
   },
   "engines": {
     "node": ">=0.8"
