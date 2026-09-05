@@ -1,9 +1,11 @@
 import fs from 'fs';
 import { safeRm } from 'fs-remove-compat';
-import { Lock } from 'lock';
+import lockPkg from 'lock';
 import path from 'path';
 import Queue from 'queue-cb';
 
+// 'lock' is CommonJS: named CJS imports need Node >= 12.20 / >= 14.13, newer than this package's engines floor.
+const { Lock } = lockPkg;
 const lock = Lock();
 
 import type { UnlinkCallback } from './types.ts';
@@ -47,7 +49,7 @@ function worker(target: string, callback: UnlinkCallback) {
   });
 }
 
-export default function unlink(target: string, callback?: UnlinkCallback): void | Promise<string> {
+export default function unlink(target: string, callback?: UnlinkCallback): void | Promise<void> {
   if (typeof callback === 'function') return worker(target, callback);
-  return new Promise((resolve, reject) => worker(target, (err, restore) => (err ? reject(err) : resolve(restore!))));
+  return new Promise((resolve, reject) => worker(target, (err) => (err ? reject(err) : resolve())));
 }

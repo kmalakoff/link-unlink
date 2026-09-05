@@ -1,9 +1,11 @@
 import fs from 'fs';
-import { Lock } from 'lock';
+import lockPkg from 'lock';
 import mkdirp from 'mkdirp-classic';
 import path from 'path';
 import tempSuffix from 'temp-suffix';
 
+// 'lock' is CommonJS: named CJS imports need Node >= 12.20 / >= 14.13, newer than this package's engines floor.
+const { Lock } = lockPkg;
 const lock = Lock();
 
 const isWindows = process.platform === 'win32' || /^(msys|cygwin)$/.test(process.env.OSTYPE ?? '');
@@ -49,5 +51,5 @@ function worker(src: string, target: string, callback: LinkCallback) {
 
 export default function link(src: string, target: string, callback?: LinkCallback): void | Promise<string> {
   if (typeof callback === 'function') return worker(src, target, callback);
-  return new Promise((resolve, reject) => worker(src, target, (err, restore) => (err ? reject(err) : resolve(restore!))));
+  return new Promise((resolve, reject) => worker(src, target, (err, restore) => (err ? reject(err) : resolve(restore as string))));
 }
