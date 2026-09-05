@@ -1,11 +1,12 @@
 import assert from 'assert';
 import fs from 'fs';
-import existsSync from 'fs-exists-sync';
 import { safeRm } from 'fs-remove-compat';
 import { link, unlink } from 'link-unlink';
 import path from 'path';
 import Pinkie from 'pinkie-promise';
 import url from 'url';
+
+import { existsSync } from '../lib/compat.ts';
 
 const __dirname = path.dirname(typeof __filename !== 'undefined' ? __filename : url.fileURLToPath(import.meta.url));
 const DATA = path.join(__dirname, '..', 'data');
