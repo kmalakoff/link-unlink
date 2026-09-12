@@ -55,7 +55,7 @@ describe('link-unlink', () => {
 
         link(source, dest, (err, restore) => {
           if (err) {
-            done(err.message);
+            done(err);
             return;
           }
           assert.equal(restore, dest);
@@ -70,7 +70,7 @@ describe('link-unlink', () => {
 
           unlink(dest, (err) => {
             if (err) {
-              done(err.message);
+              done(err);
               return;
             }
             assert.equal(existsSync(dest), false);
